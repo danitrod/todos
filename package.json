@@ -1,0 +1,19 @@
+{
+  "name": "bolttech-todo.nosync",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "./back-end/**/*": "yarn --cwd back-end eslint --fix",
+    "./web/**/*": "yarn --cwd web eslint --fix"
+  },
+  "author": "danitrod <danitrod@outlook.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^7.0.1",
+    "lint-staged": "^11.0.1"
+  }
+}
