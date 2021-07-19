@@ -31,7 +31,8 @@
       {
         "newlines-between": "always"
       }
-    ]
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off"
   },
   "ignorePatterns": [
     "yarn.lock",

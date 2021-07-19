@@ -31,8 +31,8 @@ export default class UserController {
     }),
   });
 
-  static register: RequestHandler = async (req, res) => {
-    const { username, name, password }: RegisterBody = req.body;
+  static register: RequestHandler<unknown, unknown, RegisterBody> = async (req, res) => {
+    const { username, name, password } = req.body;
 
     // Validate username is not taken
     const usernameCount = await getConnection()
@@ -70,8 +70,8 @@ export default class UserController {
     }),
   });
 
-  static login: RequestHandler = async (req, res) => {
-    const { username, password }: LoginBody = req.body;
+  static login: RequestHandler<unknown, unknown, LoginBody> = async (req, res) => {
+    const { username, password } = req.body;
 
     const user = await getConnection()
       .getRepository(User)

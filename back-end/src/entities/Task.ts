@@ -26,6 +26,9 @@ export class Task {
   @CreateDateColumn()
   createdAt!: Date;
 
+  @Column({ nullable: true })
+  finishedAt!: Date;
+
   @UpdateDateColumn()
   updatedAt!: Date;
 }

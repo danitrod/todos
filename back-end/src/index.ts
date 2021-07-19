@@ -28,7 +28,7 @@ if (!__prod__) {
 // Init Redis to store sessions
 const RedisStore = connectRedis(session);
 const redisClient = createClient({
-  // url: process.env.REDIS_URL,
+  url: process.env.REDIS_URL,
 });
 
 app.use(

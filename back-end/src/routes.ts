@@ -1,12 +1,24 @@
 import { Router } from 'express';
 
-import User from './controllers/User';
+import UserController from './controllers/User';
 import { auth } from './middleware/auth';
+import ProjectController from './controllers/Project';
+import TaskController from './controllers/Task';
 
 const router = Router();
 
-router.post('/user', User.registerSchema, User.register);
-router.post('/login', User.login);
-router.get('/auth', auth);
+router.post('/user', UserController.registerSchema, UserController.register);
+router.post('/login', UserController.login);
+router.post('/logout', UserController.logout);
+
+router.get('/projects', auth, ProjectController.list);
+router.post('/project', auth, ProjectController.createSchema, ProjectController.create);
+router.delete('/project/:id', auth, ProjectController.delete);
+
+router.get('/tasks', auth, TaskController.list);
+router.post('/task', auth, TaskController.createSchema, TaskController.create);
+router.patch('/task/toggle', auth, TaskController.toggleSchema, TaskController.toggle);
+router.patch('/task/:id', auth, TaskController.updateSchema, TaskController.update);
+router.delete('/task/:id', auth, TaskController.delete);
 
 export default router;
