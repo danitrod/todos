@@ -7,6 +7,7 @@ import session from 'express-session';
 import helmet from 'helmet';
 import { createClient } from 'redis';
 import { config } from 'dotenv';
+config();
 import cors from 'cors';
 import { createConnection, getConnectionOptions } from 'typeorm';
 import { errors } from 'celebrate';
@@ -17,11 +18,10 @@ import routes from './routes';
 // Setup app with middleware
 const app = express();
 app.use(json());
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 
-// Setup dotenv and enable cors for dev mode
+// Enable cors for dev mode
 if (!__prod__) {
-  config();
   app.use(cors({ origin: '*', credentials: true }));
 }
 
@@ -67,7 +67,16 @@ const start = async () => {
   let connectionOptions = await getConnectionOptions();
 
   // Override with custom config
-  connectionOptions = Object.assign(connectionOptions, { logging: !__prod__ });
+  if (__prod__) {
+    connectionOptions = Object.assign(connectionOptions, {
+      host: process.env.PG_HOST,
+      port: process.env.PG_PORT,
+      database: process.env.PG_DB,
+      user: process.env.PG_USER,
+      password: process.env.PG_PASS,
+      logging: false,
+    });
+  }
 
   await createConnection(connectionOptions);
   console.log('Connected to database...');

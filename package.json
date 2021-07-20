@@ -3,16 +3,21 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "grunt",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "./back-end/**/*": "yarn --cwd back-end eslint --fix",
+    "./server/**/*": "yarn --cwd server eslint --fix",
     "./web/**/*": "yarn --cwd web eslint --fix"
   },
   "author": "danitrod <danitrod@outlook.com>",
   "license": "MIT",
   "devDependencies": {
+    "grunt": "^1.4.1",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-run": "^0.8.1",
     "husky": "^7.0.1",
     "lint-staged": "^11.0.1"
   }
