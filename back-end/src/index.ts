@@ -69,9 +69,8 @@ const start = async () => {
   // Override with custom config
   connectionOptions = Object.assign(connectionOptions, { logging: !__prod__ });
 
-  const connection = await createConnection(connectionOptions);
+  await createConnection(connectionOptions);
   console.log('Connected to database...');
-  await connection.runMigrations();
   app.listen(port, () => console.log('App running on port', port));
 };
 

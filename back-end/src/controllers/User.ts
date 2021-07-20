@@ -20,6 +20,16 @@ interface LoginBody {
 }
 
 export default class UserController {
+  static get: RequestHandler = async (req, res) => {
+    const user = await getConnection().getRepository(User).findOneOrFail({
+      id: req.session.userId,
+    });
+
+    return res.status(200).json({
+      name: user.name,
+    });
+  };
+
   static registerSchema = celebrate({
     [Segments.BODY]: Joi.object().keys({
       name: Joi.string()
@@ -89,7 +99,7 @@ export default class UserController {
     }
 
     // Create session for user
-    req.session.userId = user.id.toString();
+    req.session.userId = user.id;
 
     return res.status(200).end();
   };

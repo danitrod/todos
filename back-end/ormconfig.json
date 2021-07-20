@@ -5,7 +5,7 @@
   "username": "dev",
   "password": "123",
   "database": "dev",
-  "synchronize": false,
+  "synchronize": true,
   "logging": true,
   "entities": ["dist/entities/**/*.js"],
   "migrations": ["dist/migrations/**/*.js"],

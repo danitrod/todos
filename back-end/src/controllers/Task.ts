@@ -5,10 +5,6 @@ import { getConnection } from 'typeorm';
 import { Task } from '../entities/Task';
 import { Project } from '../entities/Project';
 
-interface ListBody {
-  projectId: string;
-}
-
 interface CreateBody {
   description: string;
   projectId: string;
@@ -16,7 +12,7 @@ interface CreateBody {
 
 interface ToggleBody {
   done: boolean;
-  id: string;
+  id: number;
 }
 
 interface UpdateBody {
@@ -24,8 +20,14 @@ interface UpdateBody {
 }
 
 export default class TaskController {
+  static listSchema = celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      projectId: Joi.number().required(),
+    }),
+  });
+
   static list: RequestHandler = async (req, res) => {
-    const { projectId }: ListBody = req.body;
+    const { projectId } = req.query;
 
     // Validate project exists and is owned by user
     const project = await getConnection()
@@ -58,7 +60,7 @@ export default class TaskController {
         .regex(new RegExp(/[\w\d ]*/))
         .max(255)
         .required(),
-      projectId: Joi.string().required(),
+      projectId: Joi.number().required(),
     }),
   });
 
@@ -83,7 +85,6 @@ export default class TaskController {
       .values({
         description,
         project,
-        done: false,
       })
       .execute();
 
@@ -93,7 +94,7 @@ export default class TaskController {
   static toggleSchema = celebrate({
     [Segments.BODY]: Joi.object().keys({
       done: Joi.bool().required(),
-      id: Joi.string().required(),
+      id: Joi.number().required(),
     }),
   });
 

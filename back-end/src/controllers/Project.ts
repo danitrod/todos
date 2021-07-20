@@ -3,6 +3,7 @@ import { RequestHandler } from 'express';
 import { getConnection } from 'typeorm';
 
 import { Project } from '../entities/Project';
+import { Task } from '../entities/Task';
 
 interface CreateBody {
   name: string;
@@ -18,7 +19,7 @@ export default class ProjectController {
             id: req.session.userId,
           },
         },
-        order: { updatedAt: 'DESC' },
+        order: { createdAt: 'ASC' },
       });
 
     return res.status(200).json(projects);
@@ -42,7 +43,7 @@ export default class ProjectController {
       .into(Project)
       .values({
         name,
-        user: () => req.session.userId!,
+        user: () => req.session.userId!.toString(),
       })
       .execute();
 
@@ -52,6 +53,7 @@ export default class ProjectController {
   static delete: RequestHandler = async (req, res) => {
     const { id } = req.params;
 
+    // Validate user owns the project
     const project = await getConnection()
       .getRepository(Project)
       .createQueryBuilder()
@@ -63,6 +65,15 @@ export default class ProjectController {
       return res.status(404).end();
     }
 
+    // Delete all tasks for project
+    await getConnection()
+      .getRepository(Task)
+      .createQueryBuilder()
+      .delete()
+      .where('projectId = :id', { id })
+      .execute();
+
+    // Delete project
     await getConnection()
       .getRepository(Project)
       .createQueryBuilder()
