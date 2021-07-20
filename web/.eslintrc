@@ -1,0 +1,54 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended", // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+    "plugin:import/warnings",
+    "plugin:import/errors",
+    "plugin:import/typescript"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "settings": {
+    "react": {
+      "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "."
+      }
+    }
+  },
+  "rules": {
+    // Page for ESLint rules: https://eslint.org/docs/rules/
+    // Page for React rules: https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/
+    // Page for TypeScript rules: https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
+    // Page for import rules: https://github.com/benmosher/eslint-plugin-import
+    // Options: "error", "warn" and "off"
+    "react/prop-types": "off", // Assures props are validated - not needed as we're typing with TS
+    "import/order": [
+      "warn",
+      {
+        "newlines-between": "always"
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "yarn.lock",
+    "*.md",
+    "Dockerfile",
+    "*.gif",
+    "*.jpeg",
+    "*.jpg",
+    "*.png",
+    "*.svg",
+    "*.yaml",
+    "*.ico",
+    "*.html",
+    "*.txt"
+  ]
+}
