@@ -15,6 +15,7 @@ yarn dev
 ```bash
 cd server
 docker compose up # Start db services for development
+yarn
 yarn watch # Watch for typescript file changes
 ```
 
